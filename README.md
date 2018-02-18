@@ -117,6 +117,10 @@ Running this test on a Windows 10 machine under the 'Windows Subsystem for Linux
 
 Interestingly, the Windows browsers also seem to exhibit the same behavior of triggering just after wake, implying that the behavior connected to the underlying OS.
 
+### iOS
+
+It was observed that upon a wake on a iOS device, the browser triggers a refresh immediately on the active page.  So an elapsed `setTimeout` may not get called at all.
+
 ## A solution
 
 In order to check if your `setTimout`'s delay has elapsed while a user put their computer to sleep, you need (at least) two things:
