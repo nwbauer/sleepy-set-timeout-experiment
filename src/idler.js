@@ -16,14 +16,18 @@ module.exports = class Idler {
   }
 
   start() {
-    this.triggerTime = new Date(new Date().getTime() + this.delay);
+    this.startTime = new Date();
+    this.triggerTime = new Date(this.startTime.getTime() + this.delay);
+
     this.log(`${new Date()} starting idler`);
     this.log(`${new Date()} idler will fire in ${this.delay/(60*1000)} minutes`);
     this.log('=============');
+
     this.timeout = setTimeout(() => {
       this.log('=============');
-      this.log(`${new Date()} idler timeout fired!`);
+      this.log(`${new Date()} idler timeout fired! measured delay=${((new Date())-this.startTime)/(60*1000)} minutes`);
       clearInterval(this.monitor);
     }, this.delay);
+
   }
 }
