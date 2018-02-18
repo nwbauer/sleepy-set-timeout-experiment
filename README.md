@@ -2,13 +2,13 @@
 
 The use of JS `setTimeout` is very common in front-end applications. One known behavior of an application's users is that they often just put their machine to sleep (close their laptop) instead of closing the browser. What I will show is that sleep mode is problematic if your application depends on a `setTimeout` firing its callback as soon as its delay elapses.
 
-One might reasonably assume that "If a `setTimeout`'s delay elapses while a machine is hibernating, then upon machine wake, the JS engine will evaluate its event queue, notice it has an event with time that has elapsed, and invoke its callback as soon as possible".  This experiment will show that this behavior does not happen.
+One might reasonably assume that "If a `setTimeout`'s delay elapses while a machine is hibernating, then upon machine wake, the JS engine will evaluate its event queue, notice it has an event with time that has elapsed, and invoke its callback as soon as possible".  This experiment will show that this assumption is not true for all cases.
 
 This contribution of this repo provides a simple experiment to test whether the following hypothesis is true:
 
 >If a machine is in sleep/hibernate mode when a JS `setTimeout`'s delay elapses, the callback will not be invoked while asleep, and might not be invoked immediately on a machine's wake.
 
-Moreover, the evidence suggests that
+The evidence suggests that different OSs yield different results regarding when the callback is actually fired. For example, under macOS High Sierra the evidence suggests that
 
 ```
 setTimoutTriggerTime = setTimeoutDelay + timeAsleep
@@ -113,7 +113,7 @@ There is NO WARRANTY, to the extent permitted by law.
 >>> node -v
 v9.5.0
 ```
-Running this test on a Windows 10 machine under the 'Windows Subsystem for Linux' shell has shown that thesetTimeout does in fact trigger close to the computer's wake event.  So the setTimeout is does not trigger during sleep, but it will trigger soon after the wake event.
+Running this test on a Windows 10 machine under the 'Windows Subsystem for Linux' shell has shown that the `setTimeout` does in fact trigger close to the computer's wake event.  So the setTimeout is does not trigger during sleep, but it will trigger soon after the wake event.
 
 Interestingly, the Windows browsers also seem to exhibit the same behavior of triggering just after wake, implying that the behavior connected to the underlying OS.
 
@@ -123,7 +123,7 @@ It was observed that upon a wake on a iOS device, the browser triggers a refresh
 
 ## A solution
 
-In order to check if your `setTimout`'s delay has elapsed while a user put their computer to sleep, you need (at least) two things:
+In order to ensure if your `setTimout`'s delay has elapsed after a user put their computer to sleep, you need (at least) two things:
 
 1. an absolute-time reference to when the `setTimeout` delay elapses (just a time-stamp)
 2. a method to check the time remaining
