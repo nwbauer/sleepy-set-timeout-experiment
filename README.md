@@ -56,9 +56,11 @@ The experiment I ran, is the following:
 
 You can run this code in either a browser, or Node.  They are different environments of course, so it is important to be able to experiment on both.
 
-Browser (webpack): `npm install` then `npm start`
+**Local Browser (webpack)**: `npm install` then `npm start`
 
-Node: `node src/app.js`
+**Node**: `node src/app.js`
+
+**Mobile**: On your laptop/desktop, host the site locally by running `npm install` then `npm start -- --host [your laptop's LAN IP]`. Your local LAN IP is probably something like `192.168.1.xxx`. On your mobile device browser go to `http://[your laptop's LAN IP]:8080`.
 
 ## The results
 
